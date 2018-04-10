@@ -126,3 +126,8 @@ body {
 .logout ul {
     list-style-type: none;
 }
+
+.modal-input {
+    width: 100%;
+    height: 100px;
+}
