@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AuthenticationController {
-    @RequestMapping(value = "/authenticate")
+    @RequestMapping(value = "/")
     private String authenticate(@ModelAttribute Credentials credentials, Model model) {
         model.addAttribute("credentials", credentials != null ? credentials : new Credentials());
         return "login";
