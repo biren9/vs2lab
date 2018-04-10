@@ -3,16 +3,18 @@
 <head>
     <title>Dashboard</title>
     <meta charset='utf-8' />
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" type="text/css" href="/css/fontawsome.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no" >
 </head>
 <body>
 <div id='wrapper'>
     <div id='nav'>
         <div class='left'>
-            <h1>TITLE</h1>
+            <h1>Bitter</h1>
         </div>
 
         <div class='right logout'>
@@ -25,9 +27,9 @@
     <div class='navElement pull-left'>
         <div class='left sidenavul'>
             <ul>
-                <li><a href='/tweetWall?global=false' ><span class='glyphicon glyphicon-dashboard'></span> Personal</a></li>
-                <li><a href='/tweetWall?global=true' ><span class='glyphicon glyphicon-dashboard'></span> Global</a></li>
-                <li><a href='/userlist' ><span class='glyphicon glyphicon-user'></span> Users</a></li>
+                <li><a href='/tweetWall?global=false' ><i class='fas fa-user'></i> Personal</a></li>
+                <li><a href='/tweetWall?global=true' ><i class='fas fa-globe'></i> Global</a></li>
+                <li><a href='/userlist' ><i class='fas fa-users'></i> Users</a></li>
             </ul>
         </div>
     </div>
