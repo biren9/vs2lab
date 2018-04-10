@@ -1,0 +1,5 @@
+language: java
+deploy:
+  provider: heroku
+  api_key: "9831f335-a141-4dee-b636-ac97833d8538"
+  app: bitter-vs2
