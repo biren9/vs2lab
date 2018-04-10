@@ -20,12 +20,12 @@ body {
 }
 
  @media only screen and (min-width: 800px) {
-  #sidenav {
+     .navElement {
     position: fixed;
     width: 200px;
   }
 
-   #sidenav li a {
+     .navElement li a {
     width: 100%;
   }
 
@@ -36,11 +36,11 @@ body {
  }
 
   @media only screen and (max-width: 800px) {
-  #sidenav {
+      .navElement {
     width: 100%;
   }
 
-  #sidenav li a {
+  .navElement li a {
     width: 100%;
   }
     #content {
@@ -54,23 +54,22 @@ body {
   width: 100%;
 }
 
-#sidenav {
+.navElement {
   background-color: #292929;
   margin-top: 50px;
-  float: left;
   color: white;
   height: 100%;
   z-index: 25;
 }
 
-#sidenav ul {
+.navElement ul {
   list-style-type: none;
     width: 100%;
   padding: 0px;
   margin: 20px 0px 0px 0px;
 }
 
-#sidenav li a {
+.navElement li a {
   text-decoration: none;
   display: block;
   padding: 10px 0 10px 15px;
@@ -78,7 +77,7 @@ body {
 
 }
 
-#sidenav li a:hover {
+.navElement li a:hover {
   background-color: #898989;
   color: #292929;
 }
@@ -104,4 +103,20 @@ body {
     float: none;
     display: inline-block;
     vertical-align: middle;
+}
+
+.logout li {
+    height: 100%;
+}
+
+.logout a {
+    text-decoration: none;
+    height: 100%;
+    padding-right: 20px;
+    padding-top: 20px;
+    color: white;
+}
+
+.logout ul {
+    list-style-type: none;
 }
