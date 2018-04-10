@@ -99,3 +99,20 @@ body {
 .white {
   color: white;
 }
+
+.v-align {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.follow-badge {
+    float: right;
+    margin: auto 20px auto auto;
+}
+
+.profile-image {
+    width: 150px;
+    height: auto;
+    border-radius: 75px;
+}

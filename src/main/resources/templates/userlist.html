@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dashboard</title>
     <meta charset='utf-8' />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" type="text/css" href="/css/fontawsome.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <meta name="viewport" content="width=device-width, user-scalable=no" >
@@ -28,21 +27,30 @@
     <div id='content'>
         <div class='container-fluid'>
 
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <span class="panel-title">Panel title</span>
-                    <button type="button" class="btn btn-default float-right">+</button>
+            <div class="row mt-5">
+                <!-- spacing -->
+                <div class="col-md-3 col-xs-1"></div>
+
+                <div class="panel panel-info col-md-6 col-xs-10">
+                    <div class="panel-heading">
+                        <span class="panel-title">Panel title</span>
+                        <span class="badge badge-info v-align follow-badge">+</span>
+                    </div>
+                    <div class="panel-body white">
+                        <img src="#" alt="..." class="img-thumbnail ">
+                    </div>
+                    <div class="panel-footer">Panel footer</div>
                 </div>
-                <div class="panel-body white">
-                    Panel content
-                </div>
-                <div class="panel-footer">Panel footer</div>
+
+                <!-- spacing -->
+                <div class="col-md-3 col-xs-1"></div>
+
             </div>
 
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap-js.js"></script>
 </body>
 </html>
