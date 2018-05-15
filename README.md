@@ -6,3 +6,5 @@
 ```docker build -t dev .```
 
 ```docker run  -p 80:8080 dev```
+
+start redis ```docker container run -d -p 6379:6379 redis:latest```

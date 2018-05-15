@@ -1,4 +1,4 @@
-package vslab2.vslab2;
+package vslab2.vslab2.controller;
 
 public class Greeting {
 
