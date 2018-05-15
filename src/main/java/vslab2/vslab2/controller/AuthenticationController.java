@@ -1,5 +1,8 @@
 package vslab2.vslab2.controller;
 
+import ch.qos.logback.core.LogbackException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +14,12 @@ import vslab2.vslab2.service.ManageUsersService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 @Controller
 public class AuthenticationController {
     private static final String SUBTLE_ERROR_MESSAGE = "either our server is on fire or you did something unexpected :/";
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     ManageUsersService service;
 
@@ -44,7 +48,8 @@ public class AuthenticationController {
                 return SUBTLE_ERROR_MESSAGE;
             }
             service.registerUser(username, password);
-            return "Successfully registered !!!";
+            log.info("registered user: " + username +" with password: " + password);
+            return "tweetWall";
         }
         return "tweetWall";
     }
