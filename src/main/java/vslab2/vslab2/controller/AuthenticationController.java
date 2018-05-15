@@ -3,18 +3,19 @@ package vslab2.vslab2.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import vslab2.vslab2.entity.RegisterRequestEntity;
 import vslab2.vslab2.service.ManageUsersService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 public class AuthenticationController {
+    private static final String SUBTLE_ERROR_MESSAGE = "either our server is on fire or you did something unexpected :/";
     @Autowired
     ManageUsersService service;
 
@@ -24,11 +25,27 @@ public class AuthenticationController {
         return "login";
     }
 
-    @RequestMapping(value = "/register")
-    @ResponseBody
-    private String register(@RequestBody RegisterRequestEntity registerRequestEntity, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/login", method=RequestMethod.POST)
+    private String register(@RequestBody MultiValueMap<String,String> formData, HttpServletRequest request, HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_OK);
-        String jsonResponse = service.registerUser(registerRequestEntity.getUsername(), registerRequestEntity.getPassword());
-        return jsonResponse;
+        boolean isLogOnAction = formData.get("loginBtn") != null;
+        boolean isRegisterAction = formData.get("registerBtn") != null;
+        if (!(isLogOnAction || isRegisterAction)){
+            return SUBTLE_ERROR_MESSAGE;
+        }
+
+        if (isRegisterAction) {
+            if ((formData.get("email") == null) || (formData.get("password") == null)) {
+                return SUBTLE_ERROR_MESSAGE;
+            }
+            String username = formData.get("email").get(0);
+            String password = formData.get("password").get(0);
+            if (username == null || password == null) {
+                return SUBTLE_ERROR_MESSAGE;
+            }
+            service.registerUser(username, password);
+            return "Successfully registered !!!";
+        }
+        return "tweetWall";
     }
 }
