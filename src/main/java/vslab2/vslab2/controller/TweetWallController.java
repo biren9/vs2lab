@@ -33,7 +33,7 @@ public class TweetWallController {
             messageEntities.add(gson.fromJson(message,MessageEntity.class));
         }
         model.addAttribute("messages", messageEntities );
-        log.info((String) session.getAttribute("test"));
+        log.info("session att: " + session.getAttribute("test"));
         return  "tweetWall";
     }
 

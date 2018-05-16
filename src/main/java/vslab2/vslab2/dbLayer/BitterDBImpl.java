@@ -22,6 +22,7 @@ public class BitterDBImpl implements BitterDB {
     @Override
     public void generateTestData() {
         createUser("pknp", "pknp");
+        jedis.flushAll();
         for (int i = 0; i<20; i++) {
             addMessage("pknp", "Nachricht" + i);
         }
