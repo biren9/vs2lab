@@ -23,7 +23,7 @@ public class BitterDBImpl implements BitterDB {
     public void generateTestData() {
         createUser("pknp", "pknp");
         for (int i = 0; i<20; i++) {
-            addMessage("pknp", "Nachricht" + 1);
+            addMessage("pknp", "Nachricht" + i);
         }
     }
     
@@ -77,7 +77,7 @@ public class BitterDBImpl implements BitterDB {
 
     @Override
     public List<String> getMessage(String username, long start, long stop) {
-        return jedis.lrange(BITTER_MESSAGES_PREFIX+username, start, stop);
+        return jedis.lrange(BITTER_MESSAGES_PREFIX + username, start, stop);
     }
     
     @Override
