@@ -13,6 +13,7 @@ import vslab2.vslab2.service.ManageUsersService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -30,8 +31,10 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/login", method=RequestMethod.POST)
-    private String register(@RequestBody MultiValueMap<String,String> formData, HttpServletRequest request, HttpServletResponse response) {
+    private String register(@RequestBody MultiValueMap<String,String> formData, HttpServletRequest request,
+                            HttpServletResponse response, HttpSession session) {
         response.setStatus(HttpServletResponse.SC_OK);
+        session.setAttribute("test", "test");
         boolean isLogOnAction = formData.get("loginBtn") != null;
         boolean isRegisterAction = formData.get("registerBtn") != null;
         if (!(isLogOnAction || isRegisterAction)){

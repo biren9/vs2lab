@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vslab2.vslab2.dbLayer.BitterDB;
 
+import java.util.List;
+
 @Service
 public class ManageUsersService {
 
@@ -19,6 +21,10 @@ public class ManageUsersService {
         ObjectNode jsonResponse = objectMapper.createObjectNode();
         jsonResponse.put("result", "username" + username + "created");
         return jsonResponse.toString();
+    }
+
+    public List<String> getMessage(String username, long start, long stop) {
+        return dao.getMessage(username, start, stop);
     }
 
 }

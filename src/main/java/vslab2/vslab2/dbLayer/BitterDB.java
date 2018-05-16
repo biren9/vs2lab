@@ -22,5 +22,7 @@ public interface BitterDB {
 
     void addMessage(String username, String text);
 
+    List<String> getMessage(String username, long start, long stop);
+
     Set<String> getFollowers(String username);
 }

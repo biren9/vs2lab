@@ -3,10 +3,12 @@ package vslab2.vslab2.dbLayer;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 
 @Repository
 public class BitterDBImpl implements BitterDB {
@@ -67,7 +69,12 @@ public class BitterDBImpl implements BitterDB {
 
     @Override
     public void addMessage(String username, String text) {
-        jedis.lpush(BITTER_MESSAGES_PREFIX + username);
+        jedis.lpush(BITTER_MESSAGES_PREFIX + username, text);
+    }
+
+    @Override
+    public List<String> getMessage(String username, long start, long stop) {
+        return jedis.lrange(username, start, stop);
     }
     
     @Override
