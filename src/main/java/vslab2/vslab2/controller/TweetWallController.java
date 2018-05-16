@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import vslab2.vslab2.entity.MessageEntity;
 import vslab2.vslab2.service.ManageUsersService;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -21,13 +22,18 @@ import java.util.*;
 @Controller
 public class TweetWallController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private Gson gson = new Gson();
 
     @Autowired
     ManageUsersService service;
 
     @RequestMapping(value = "/tweetWall/{username}")
     public String greetingSubmit(HttpSession session, @PathVariable String username, Model model) {
-        model.addAttribute("messages", service.getMessage(username, 0, 20));
+        List<MessageEntity> messageEntities = new ArrayList<>();
+        for (String message : service.getMessage(username, 0, 20)) {
+            messageEntities.add(gson.fromJson(message,MessageEntity.class));
+        }
+        model.addAttribute("messages", messageEntities );
         log.info((String) session.getAttribute("test"));
         return  "tweetWall";
     }

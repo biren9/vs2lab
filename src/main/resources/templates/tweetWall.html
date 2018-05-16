@@ -40,11 +40,11 @@
                 <div class="card col-md-10 mt-5 offset-md-1" th:each="message : ${messages}">
                     <div class="card-header">
                         Featured
-                        <span class="right small">29.03.2018 18:56</span>
+                        <span class="right small" th:text="${message.timestamp}">timestamp</span>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text" th:text="${message}">With supporting text below as a natural lead-in to additional content.</p>
+                        <h5 class="card-title" th:text="${message.author}">author</h5>
+                        <p class="card-text" th:text="${message.text}">With supporting text below as a natural lead-in to additional content.</p>
                     </div>
                     <div class="card-footer">
                         <a href="#" class="btn btn-success">+ Follow</a>
