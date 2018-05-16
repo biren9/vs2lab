@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vslab2.vslab2.dbLayer.BitterDB;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
@@ -15,6 +16,11 @@ public class ManageUsersService {
     private BitterDB dao;
 
     private ObjectMapper objectMapper = new ObjectMapper();
+
+    @PostConstruct
+    public void initIt() {
+        dao.generateTestData();
+    }
 
     public String registerUser(String username, String password) {
         dao.createUser(username, password);
@@ -26,5 +32,6 @@ public class ManageUsersService {
     public List<String> getMessage(String username, long start, long stop) {
         return dao.getMessage(username, start, stop);
     }
+
 
 }
