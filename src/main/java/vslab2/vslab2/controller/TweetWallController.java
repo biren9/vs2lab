@@ -20,7 +20,7 @@ import java.util.*;
 @Controller
 public class TweetWallController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final int messageCount = 20;
+    private final int messageCount = 5;
     private Gson gson = new Gson();
 
     @Autowired
@@ -29,7 +29,7 @@ public class TweetWallController {
     @RequestMapping(value = "/tweetWall/{username}")
     public String greetingSubmit(HttpSession session, @PathVariable String username, Model model) {
         List<MessageEntity> messageEntities = new ArrayList<>();
-        for (String message : service.getMessage(username, 0, 20)) {
+        for (String message : service.getMessage(username, 0, messageCount)) {
             messageEntities.add(gson.fromJson(message,MessageEntity.class));
         }
         model.addAttribute("messages", messageEntities );
