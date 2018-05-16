@@ -1,18 +1,18 @@
 package vslab2.vslab2.dbLayer;
 
+import com.google.gson.Gson;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
+import vslab2.vslab2.entity.MessageEntity;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Repository
 public class BitterDBImpl implements BitterDB {
     private Jedis jedis = new Jedis("localhost");
+    private Gson gson = new Gson();
     private static final String BITTER_USERS_SET = "users";
     private static final String BITTER_SUBSCRIPTIONS_PREFIX = "subs:";
     private static final String BITTER_FOLLOWERS_PREFIX = "followers:";
@@ -72,7 +72,8 @@ public class BitterDBImpl implements BitterDB {
 
     @Override
     public void addMessage(String username, String text) {
-        jedis.lpush(BITTER_MESSAGES_PREFIX + username, text);
+        MessageEntity message = new MessageEntity(new Date(), username, text);
+        jedis.lpush(BITTER_MESSAGES_PREFIX + username,  gson.toJson(message));
     }
 
     @Override
