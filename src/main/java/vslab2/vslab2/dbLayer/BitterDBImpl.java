@@ -77,7 +77,7 @@ public class BitterDBImpl implements BitterDB {
 
     @Override
     public List<String> getMessage(String username, long start, long stop) {
-        return jedis.lrange(username, start, stop);
+        return jedis.lrange(BITTER_MESSAGES_PREFIX+username, start, stop);
     }
     
     @Override

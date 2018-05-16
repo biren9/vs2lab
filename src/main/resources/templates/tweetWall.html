@@ -34,7 +34,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="tweetwall">
 
 
                 <div class="card col-md-10 mt-5 offset-md-1">
@@ -85,10 +85,30 @@
 
 <script>
     $(document).ready(function() {
-        $.post("/tweet", {page: 0}, function(data){
-            console.log(data);
+        let pageCount = 0;
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+                $.post("/tweet", {page: pageCount}, function(data){
+                    pageCount += 1;
+                    console.log(data);
+                    $.each(data, function (key, value)  {
+                        $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
+                            "                    <div class=\"card-header\">\n" +
+                            "                        Featured\n" +
+                            "                        <span class=\"right small\">29.03.2018 18:56</span>\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"card-body\">\n" +
+                            "                        <h5 class=\"card-title\">"+value+"</h5>\n" +
+                            "                        <p class=\"card-text\">With supporting text below as a natural lead-in to additional content.</p>\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"card-footer\">\n" +
+                            "                        <a href=\"#\" class=\"btn btn-success\">+ Follow</a>\n" +
+                            "                    </div>\n" +
+                            "                </div>");
+                    });
+                });
+            }
         });
-
     });
 </script>
 
