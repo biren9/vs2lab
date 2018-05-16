@@ -20,8 +20,11 @@ public class BitterDBImpl implements BitterDB {
 
 
     @Override
-    public void testConn() {
-
+    public void generateTestData() {
+        createUser("pknp", "pknp");
+        for (int i = 0; i<20; i++) {
+            addMessage("pknp", "Nachricht" + 1);
+        }
     }
     
     @Override

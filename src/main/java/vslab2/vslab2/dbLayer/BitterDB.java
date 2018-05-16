@@ -5,7 +5,7 @@ import java.util.Set;
 
 public interface BitterDB {
 
-    void testConn();
+    void generateTestData();
 
     void createUser(String username, String password);
 
