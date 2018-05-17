@@ -60,7 +60,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+<script src="/js/script.js"></script>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -81,46 +81,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        let pageCount = 1;
-        let allTweetsLoaded = false;
-        let requestDone = new Array();
-        $(window).scroll(function() {
-            if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-                if(requestDone[pageCount] == undefined && !allTweetsLoaded) {
-                    requestDone[pageCount] = true;
-                    $.get(window.location.pathname+"/"+pageCount, function (data) {
-                        pageCount += 1;
-                        if(data.length > 0) {
-                            $.each(data, function (key, value) {
-                                var obj = JSON.parse(value);
-                                console.log(obj);
-                                $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
-                                    "                    <div class=\"card-header\">\n" +
-                                    "                        Bitt\n" +
-                                    "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-body\">\n" +
-                                    "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-footer\">\n" +
-                                    "                        <a href=\"#\" class=\"btn btn-success\">+ " + obj.author + "</a>\n" +
-                                    "                    </div>\n" +
-                                    "                </div>");
-                            });
-                        }
-                        else {
-                            allTweetsLoaded = true;
-                            $("#tweetwall").append("<div class=\"card col-md-12 mt-5 offset-md-12\"><span class='text-center'>Keine Tweets mehr verfügbar</span></div>");
-                        }
-                    });
-                }
-            }
-        });
-    });
-</script>
 
 </body>
 </html>
