@@ -17,7 +17,9 @@ import java.util.*;
 public class TweetWallController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final int messageCount = 5;
-    private Gson gson = new Gson();
+
+    @Autowired
+    private Gson gson;
 
     @Autowired
     ManageUsersService service;
@@ -37,6 +39,6 @@ public class TweetWallController {
     @ResponseBody
     public String getTweets(@PathVariable String username, @PathVariable int page) {
         List<String> messages = service.getMessage(username, page*messageCount+1, (page+1)*messageCount);
-        return new Gson().toJson(messages);
+        return gson.toJson(messages);
     }
 }
