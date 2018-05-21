@@ -1,5 +1,7 @@
 package vslab2.vslab2.dbLayer;
 
+import vslab2.vslab2.entity.MessageEntity;
+
 import java.util.List;
 import java.util.Set;
 
@@ -25,4 +27,6 @@ public interface BitterDB {
     List<String> getMessage(String username, long start, long stop);
 
     Set<String> getFollowers(String username);
+
+    void addMessage(MessageEntity msg);
 }

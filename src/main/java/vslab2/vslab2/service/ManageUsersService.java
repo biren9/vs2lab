@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vslab2.vslab2.dbLayer.BitterDB;
+import vslab2.vslab2.entity.MessageEntity;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,5 +35,13 @@ public class ManageUsersService {
         return dao.getMessage(username, start, stop);
     }
 
+    public void addMessage(String username, String text) {
+        dao.addMessage(username, text);
+    }
+
+    public void addMessage(MessageEntity msg) {
+        msg.setTimestamp(new Date());
+        dao.addMessage(msg);
+    }
 
 }

@@ -34,4 +34,27 @@ $(document).ready(function() {
             }
         }
     });
+    $(".post-message").click(function(e) {
+        e.preventDefault();
+        let bitter = {
+            "timestamp" : null,
+            "author" : "pknp",
+            "text" : $('.modal-input').val()
+        };
+        $('#exampleModal').modal('hide')
+        $.ajax(window.location.pathname,
+            {
+                "data" : JSON.stringify(bitter),
+                "method" : "POST",
+                "success" : function(data, status) {
+                    $('.modal-input').val("");
+                    location.reload();
+
+                },
+                "error": function(_, status, error ) {
+                    console.log(error)
+                },
+                "contentType" : "application/json"
+            });
+    });
 });

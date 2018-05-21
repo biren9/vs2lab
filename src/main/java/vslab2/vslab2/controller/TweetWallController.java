@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vslab2.vslab2.entity.MessageEntity;
 import vslab2.vslab2.service.ManageUsersService;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -24,7 +26,7 @@ public class TweetWallController {
     @Autowired
     ManageUsersService service;
 
-    @RequestMapping(value = "/tweetWall/{username}")
+    @RequestMapping(value = "/tweetWall/{username}", method = RequestMethod.GET)
     public String greetingSubmit(HttpSession session, @PathVariable String username, Model model) {
         List<MessageEntity> messageEntities = new ArrayList<>();
         for (String message : service.getMessage(username, 0, messageCount)) {
@@ -33,6 +35,12 @@ public class TweetWallController {
         model.addAttribute("messages", messageEntities );
         log.info("session att: " + session.getAttribute("test"));
         return  "tweetWall";
+    }
+
+    @RequestMapping(value = "/tweetWall/{username}", method = RequestMethod.POST)
+    public void createTweet(@PathVariable String username, HttpServletResponse res, @RequestBody MessageEntity mess, Model model) {
+        service.addMessage(mess);
+        log.info("created tweet: " + mess);
     }
 
     @RequestMapping(value = "/tweetWall/{username}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, method = RequestMethod.GET)

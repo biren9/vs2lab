@@ -90,17 +90,22 @@ public class BitterDBImpl implements BitterDB {
     @Override
     public void addMessage(String username, String text) {
         MessageEntity message = new MessageEntity(new Date(), username, text);
-        listOps.leftPush(BITTER_MESSAGES_PREFIX + username,  gson.toJson(message));
+        addMessage(message);
+    }
+
+    @Override
+    public void addMessage(MessageEntity msg) {
+        listOps.leftPush(BITTER_MESSAGES_PREFIX + msg.getAuthor(),  gson.toJson(msg));
     }
 
     @Override
     public List<String> getMessage(String username, long start, long stop) {
         return listOps.range(BITTER_MESSAGES_PREFIX + username, start, stop);
     }
-    
+
     @Override
     public Set<String> getFollowers(String username) {
         return setOps.members(BITTER_FOLLOWERS_PREFIX + username);
     }
-    
+
 }

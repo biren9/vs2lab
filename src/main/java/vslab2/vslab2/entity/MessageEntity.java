@@ -3,9 +3,18 @@ package vslab2.vslab2.entity;
 import java.util.Date;
 
 public class MessageEntity {
-    Date timestamp;
-    String author;
-    String text;
+    private Date timestamp;
+    private String author;
+    private String text;
+
+    @Override
+    public String toString() {
+        return "MessageEntity{" +
+                "timestamp=" + timestamp +
+                ", author='" + author + '\'' +
+                ", text='" + text + '\'' +
+                '}';
+    }
 
     public MessageEntity() {
 
