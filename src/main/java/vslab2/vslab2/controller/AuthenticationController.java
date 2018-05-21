@@ -23,7 +23,6 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/")
     private String authenticate() {
-
         return "login";
     }
 
