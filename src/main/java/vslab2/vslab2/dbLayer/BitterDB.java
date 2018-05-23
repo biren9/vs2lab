@@ -29,4 +29,8 @@ public interface BitterDB {
     Set<String> getFollowers(String username);
 
     void addMessage(MessageEntity msg);
+
+    void saveSession(String username, long minutesDuration, String uuid);
+
+    String getUserBySessionToken(String token);
 }

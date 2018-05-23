@@ -2,37 +2,42 @@ package vslab2.vslab2.dbLayer;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Repository;
 import vslab2.vslab2.entity.MessageEntity;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 @Repository
 public class BitterDBImpl implements BitterDB {
 
-    @Autowired
-    private RedisTemplate<String, String> template;
+    private final RedisTemplate<String, String> template;
 
     private ListOperations<String, String> listOps;
     private SetOperations<String, String> setOps;
     private HashOperations<String, String, String> hashOps;
+    private ValueOperations<String, String> valOps;
+
+    @Autowired
+    public BitterDBImpl(RedisTemplate<String, String> template, Gson gson) {
+        this.template = template;
+        this.gson = gson;
+    }
 
     @PostConstruct
     private void init() {
+        valOps = template.opsForValue();
         listOps = template.opsForList();
         setOps = template.opsForSet();
         hashOps = template.opsForHash();
+        generateTestData();
     }
 
 
-    @Autowired
-    private Gson gson;
+    private final Gson gson;
 
     private static final String BITTER_USERS_SET = "users";
     private static final String BITTER_SUBSCRIPTIONS_PREFIX = "subs:";
@@ -42,8 +47,8 @@ public class BitterDBImpl implements BitterDB {
 
     @Override
     public void generateTestData() {
-        createUser("pknp", "pknp");
         template.getConnectionFactory().getConnection().serverCommands().flushAll();
+        createUser("pknp", "pknp");
         for (int i = 0; i<20; i++) {
             addMessage("pknp", "Nachricht" + i);
         }
@@ -96,6 +101,16 @@ public class BitterDBImpl implements BitterDB {
     @Override
     public void addMessage(MessageEntity msg) {
         listOps.leftPush(BITTER_MESSAGES_PREFIX + msg.getAuthor(),  gson.toJson(msg));
+    }
+
+    @Override
+    public void saveSession(String username, long minutesDuration, String uuid) {
+        valOps.set(uuid, username, minutesDuration, TimeUnit.MINUTES);
+    }
+
+    @Override
+    public String getUserBySessionToken(String token) {
+        return valOps.get(token);
     }
 
     @Override
