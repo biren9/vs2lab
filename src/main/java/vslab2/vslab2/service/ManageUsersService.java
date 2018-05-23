@@ -4,20 +4,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vslab2.vslab2.config.properties.AuthProperties;
 import vslab2.vslab2.dbLayer.BitterDB;
 import vslab2.vslab2.entity.MessageEntity;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ManageUsersService {
 
-    @Autowired
-    private BitterDB dao;
+    private final BitterDB dao;
+
+    private final AuthProperties authProperties;
 
     private ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    public ManageUsersService(BitterDB dao, AuthProperties authProperties) {
+        this.dao = dao;
+        this.authProperties = authProperties;
+    }
 
     @PostConstruct
     public void initIt() {
@@ -43,5 +52,4 @@ public class ManageUsersService {
         msg.setTimestamp(new Date());
         dao.addMessage(msg);
     }
-
 }
