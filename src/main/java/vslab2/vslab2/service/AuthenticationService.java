@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.ModelAndView;
 import vslab2.vslab2.config.properties.AuthProperties;
 import vslab2.vslab2.dbLayer.BitterDB;
 
@@ -19,7 +21,7 @@ public class AuthenticationService {
     private final BitterDB dao;
     private final AuthProperties authProperties;
     private final static String SESSION_TOKEN = "sessionToken";
-    private final static String CLIENT_USERNAME = "client_Usrname";
+    private final static String CLIENT_USERNAME = "client_username";
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -81,5 +83,15 @@ public class AuthenticationService {
             log.warn(e.toString());
         }
         return false;
+    }
+
+    public void addUserToModel(HttpServletRequest req, ModelAndView modelAndView) {
+        String token = null;
+        for (Cookie c : req.getCookies()) {
+            if (c.getName().equals(SESSION_TOKEN)) {
+                token = c.getValue();
+            }
+        }
+        modelAndView.addObject("username", dao.getUserBySessionToken(token));
     }
 }

@@ -43,11 +43,14 @@ public class BitterDBImpl implements BitterDB {
     private static final String BITTER_SUBSCRIPTIONS_PREFIX = "subs:";
     private static final String BITTER_FOLLOWERS_PREFIX = "followers:";
     private static final String BITTER_MESSAGES_PREFIX = "msgs:";
+    private static final String BITTER_TIMELINE_PREFIX = "timeline:";
+    private static final String BITTER_GLOBAL_TIMELINE = "global_timeline";
 
 
     @Override
     public void generateTestData() {
         template.getConnectionFactory().getConnection().serverCommands().flushAll();
+        addSub("pknp","pknp");
         createUser("pknp", "pknp");
         for (int i = 0; i<20; i++) {
             addMessage("pknp", "Nachricht" + i);
@@ -100,7 +103,13 @@ public class BitterDBImpl implements BitterDB {
 
     @Override
     public void addMessage(MessageEntity msg) {
-        listOps.leftPush(BITTER_MESSAGES_PREFIX + msg.getAuthor(),  gson.toJson(msg));
+        String author = msg.getAuthor();
+        for (String follower : getFollowers(author)) {
+            listOps.leftPush(BITTER_TIMELINE_PREFIX + follower, gson.toJson(msg));
+        }
+        listOps.leftPush(BITTER_GLOBAL_TIMELINE, gson.toJson(msg));
+        listOps.leftPush(BITTER_MESSAGES_PREFIX + author ,  gson.toJson(msg));
+
     }
 
     @Override
@@ -111,6 +120,16 @@ public class BitterDBImpl implements BitterDB {
     @Override
     public String getUserBySessionToken(String token) {
         return valOps.get(token);
+    }
+
+    @Override
+    public List<String> getTimelineMessages(String username, long start, long stop) {
+        return listOps.range(BITTER_TIMELINE_PREFIX + username, start, stop);
+    }
+
+    @Override
+    public List<String> getGlobalTimelineMessages(long start, long stop) {
+        return listOps.range(BITTER_GLOBAL_TIMELINE, start, stop);
     }
 
     @Override

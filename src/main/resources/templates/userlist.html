@@ -27,8 +27,9 @@
     <div class='navElement pull-left'>
         <div class='left sidenavul'>
             <ul>
-                <li><a href='/tweetWall?global=false' ><i class='fas fa-user'></i> Personal</a></li>
-                <li><a href='/tweetWall?global=true' ><i class='fas fa-globe'></i> Global</a></li>
+                <li><!--/*@thymesVar id="username" type="java.lang.String"*/-->
+                <a th:href="@{/tweetWall/{username}(username=${username})}"><i class='fas fa-user'></i> Personal</a></li>
+                <li><a th:href="@{/tweetWall/global}" ><i class='fas fa-globe'></i> Global</a></li>
                 <li><a href='/userlist' ><i class='fas fa-users'></i> Users</a></li>
             </ul>
         </div>
@@ -58,7 +59,6 @@
             </div>
         </div>
     </div>
-</div>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap-js.js"></script>
 </body>

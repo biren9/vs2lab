@@ -24,6 +24,8 @@ public interface BitterDB {
 
     void addMessage(String username, String text);
 
+    List<String> getGlobalTimelineMessages(long start, long stop);
+
     List<String> getMessage(String username, long start, long stop);
 
     Set<String> getFollowers(String username);
@@ -33,4 +35,6 @@ public interface BitterDB {
     void saveSession(String username, long minutesDuration, String uuid);
 
     String getUserBySessionToken(String token);
+
+    List<String> getTimelineMessages(String username, long start, long stop);
 }

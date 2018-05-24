@@ -2,6 +2,8 @@ package vslab2.vslab2.controller.interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import vslab2.vslab2.config.properties.AuthProperties;
 import vslab2.vslab2.service.AuthenticationService;
@@ -28,5 +30,11 @@ public class SessionManager extends HandlerInterceptorAdapter {
             return authService.authenticateRequest(request, response, handler);
         }
         return super.preHandle(request, response, handler);
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        authService.addUserToModel(request, modelAndView);
+        super.postHandle(request, response, handler, modelAndView);
     }
 }

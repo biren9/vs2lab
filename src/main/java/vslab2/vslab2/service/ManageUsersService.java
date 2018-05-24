@@ -44,6 +44,13 @@ public class ManageUsersService {
         return dao.getMessage(username, start, stop);
     }
 
+    public List<String> getTimelineMessages(String username, long start, long stop) {
+        return dao.getTimelineMessages(username, start, stop);
+    }
+    public List<String> getGlobalTimelineMessages(long start, long stop) {
+        return dao.getGlobalTimelineMessages(start, stop);
+    }
+
     public void addMessage(String username, String text) {
         dao.addMessage(username, text);
     }
@@ -52,4 +59,5 @@ public class ManageUsersService {
         msg.setTimestamp(new Date());
         dao.addMessage(msg);
     }
+
 }

@@ -36,17 +36,18 @@ $(document).ready(function() {
     });
     $(".post-message").click(function(e) {
         e.preventDefault();
+        let author = getCookie("client_username");
         let bitter = {
             "timestamp" : null,
-            "author" : "pknp",
+            "author" : author,
             "text" : $('.modal-input').val()
         };
-        $('#exampleModal').modal('hide')
+        $('#exampleModal').modal('hide');
         $.ajax(window.location.pathname,
             {
                 "data" : JSON.stringify(bitter),
                 "method" : "POST",
-                "success" : function(data, status) {
+                "success" : function(data, _) {
                     $('.modal-input').val("");
                     location.reload();
 
@@ -58,3 +59,9 @@ $(document).ready(function() {
             });
     });
 });
+
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}

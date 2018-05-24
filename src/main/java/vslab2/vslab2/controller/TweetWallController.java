@@ -44,17 +44,26 @@ public class TweetWallController {
             HttpServletRequest req)
     {
         List<MessageEntity> messageEntities = new ArrayList<>();
-        for (String message : service.getMessage(username, 0, messageCount)) {
+        List<String> messageSource;
+        if (username.equals("global")) {
+            messageSource = service.getGlobalTimelineMessages(0, messageCount);
+        } else {
+            messageSource = service.getTimelineMessages(username, 0, messageCount);
+        }
+        for (String message : messageSource) {
             messageEntities.add(gson.fromJson(message,MessageEntity.class));
         }
         model.addAttribute("messages", messageEntities );
-        model.addAttribute("username", authService.getAuthenticatedUserByRequest(req));
         model.addAttribute("tweetWallOwner", username);
         return  "tweetWall";
     }
 
     @RequestMapping(value = "/tweetWall/{username}", method = RequestMethod.POST)
-    public void createTweet(@PathVariable String username, HttpServletResponse res, @RequestBody MessageEntity mess, Model model) {
+    public void createTweet(@PathVariable String username, HttpServletResponse res, HttpServletRequest req, @RequestBody MessageEntity mess, Model model) {
+        if (!authService.getAuthenticatedUserByRequest(req).equals(mess.getAuthor())) {
+            res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
         service.addMessage(mess);
         log.info("created tweet: " + mess);
     }
@@ -62,7 +71,13 @@ public class TweetWallController {
     @RequestMapping(value = "/tweetWall/{username}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, method = RequestMethod.GET)
     @ResponseBody
     public String getTweets(@PathVariable String username, @PathVariable int page) {
-        List<String> messages = service.getMessage(username, page*messageCount+1, (page+1)*messageCount);
+        List<String> messages;
+        if (username.equals("global")) {
+            messages = service.getGlobalTimelineMessages(page*messageCount+1, (page+1)*messageCount);
+        } else {
+            messages = service.getTimelineMessages(username, page*messageCount+1, (page+1)*messageCount);
+
+        }
         return gson.toJson(messages);
     }
 }
