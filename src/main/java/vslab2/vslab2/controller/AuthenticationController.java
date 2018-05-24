@@ -36,7 +36,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/login", method=RequestMethod.POST)
     private String register(@RequestBody MultiValueMap<String,String> formData, HttpServletRequest request,
                             HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_OK);
+
         boolean isLogOnAction = formData.get("loginBtn") != null;
         boolean isRegisterAction = formData.get("registerBtn") != null;
         if (!(isLogOnAction || isRegisterAction)){
@@ -54,12 +54,13 @@ public class AuthenticationController {
                 return "error";
             }
             service.registerUser(username, password);
+            authService.handleLoginRequest(request, response, username, password);
             log.info("registered user: " + username +" with password: " + password);
-            return "tweetWall";
+            return "redirect:tweetWall/" + username;
         }
         //Login
         if (authService.handleLoginRequest(request, response, username, password)) {
-            return "tweetWall";
+            return "redirect:tweetWall/" + username;
         }
         return "login";
     }

@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vslab2.vslab2.entity.MessageEntity;
+import vslab2.vslab2.service.AuthenticationService;
 import vslab2.vslab2.service.ManageUsersService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -20,20 +22,34 @@ public class TweetWallController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final int messageCount = 5;
 
-    @Autowired
-    private Gson gson;
+    private final Gson gson;
+
+    private final ManageUsersService service;
+
+    private final AuthenticationService authService;
 
     @Autowired
-    ManageUsersService service;
+    public TweetWallController(Gson gson, ManageUsersService service, AuthenticationService authenticationService) {
+        this.gson = gson;
+        this.service = service;
+        this.authService = authenticationService;
+    }
+
 
     @RequestMapping(value = "/tweetWall/{username}", method = RequestMethod.GET)
-    public String greetingSubmit(HttpSession session, @PathVariable String username, Model model) {
+    public String greetingSubmit(
+            HttpSession session,
+            @PathVariable String username,
+            Model model,
+            HttpServletRequest req)
+    {
         List<MessageEntity> messageEntities = new ArrayList<>();
         for (String message : service.getMessage(username, 0, messageCount)) {
             messageEntities.add(gson.fromJson(message,MessageEntity.class));
         }
         model.addAttribute("messages", messageEntities );
-        log.info("session att: " + session.getAttribute("test"));
+        model.addAttribute("username", authService.getAuthenticatedUserByRequest(req));
+        model.addAttribute("tweetWallOwner", username);
         return  "tweetWall";
     }
 

@@ -58,7 +58,20 @@ public class AuthenticationService {
             return redirectToLogin(response);
         }
         String user = dao.getUserBySessionToken(token);
+        if (user == null) {
+            return redirectToLogin(response);
+        }
         return user.equals(clientUsername);
+    }
+
+    public String getAuthenticatedUserByRequest(HttpServletRequest request) {
+        String token = null;
+        for (Cookie c : request.getCookies()) {
+            if (c.getName().equals(SESSION_TOKEN)) {
+                token = c.getValue();
+            }
+        }
+        return dao.getUserBySessionToken(token);
     }
 
     private boolean redirectToLogin(HttpServletResponse response) {
