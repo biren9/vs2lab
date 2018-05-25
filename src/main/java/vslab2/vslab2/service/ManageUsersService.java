@@ -11,6 +11,7 @@ import vslab2.vslab2.entity.MessageEntity;
 import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -60,4 +61,11 @@ public class ManageUsersService {
         dao.addMessage(msg);
     }
 
+    public void addSub(String username, String subscribedUser) {
+        dao.addSub(username, subscribedUser);
+    }
+
+    public Set<String> getSubs(String username) {
+        return dao.getSubs(username);
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vslab2.vslab2.entity.MessageEntity;
+import vslab2.vslab2.entity.MessagePageEntity;
 import vslab2.vslab2.service.AuthenticationService;
 import vslab2.vslab2.service.ManageUsersService;
 
@@ -70,14 +71,17 @@ public class TweetWallController {
 
     @RequestMapping(value = "/tweetWall/{username}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, method = RequestMethod.GET)
     @ResponseBody
-    public String getTweets(@PathVariable String username, @PathVariable int page) {
+    public String getTweets(@PathVariable String username, @PathVariable int page, HttpServletRequest req) {
         List<String> messages;
+        Set<String> subscriptions = service.getSubs(authService.getAuthenticatedUserByRequest(req));
         if (username.equals("global")) {
             messages = service.getGlobalTimelineMessages(page*messageCount+1, (page+1)*messageCount);
         } else {
+
             messages = service.getTimelineMessages(username, page*messageCount+1, (page+1)*messageCount);
 
         }
-        return gson.toJson(messages);
+
+        return gson.toJson(new MessagePageEntity(subscriptions, messages));
     }
 }

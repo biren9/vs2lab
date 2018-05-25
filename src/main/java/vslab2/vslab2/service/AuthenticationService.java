@@ -14,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -92,6 +93,8 @@ public class AuthenticationService {
                 token = c.getValue();
             }
         }
+        String username = dao.getUserBySessionToken(token);
         modelAndView.addObject("username", dao.getUserBySessionToken(token));
+        modelAndView.addObject("subs", dao.getSubs(username));
     }
 }

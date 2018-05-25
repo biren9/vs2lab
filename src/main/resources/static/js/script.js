@@ -58,10 +58,32 @@ $(document).ready(function() {
                 "contentType" : "application/json"
             });
     });
+    $(".followButton").click(function(e) {
+        e.preventDefault();
+        var button = $(this);
+        let buttonText = $(this).text();
+        let extract = buttonText.lastIndexOf(' ');
+        let userToFollow = buttonText.substring(extract + 1);
+        let user = getCookie("client_username");
+        let targetUrl = "/follow/" + user;
+        $.ajax(targetUrl, {
+                "data" : JSON.stringify({follow: userToFollow}),
+                "method" : "POST",
+                "success" : function(data, _) {
+                    button.removeClass("btn-success");
+                    button.addClass("btn-info");
+                    button.text("- " + userToFollow);
+                },
+                "error": function(_, status, error ) {
+                    console.log(error);
+                },
+                "contentType" : "application/json"
+        });
+    });
 });
 
 function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
 }
