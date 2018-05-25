@@ -59,7 +59,7 @@ public class TweetWallController {
         return  "tweetWall";
     }
 
-    @RequestMapping(value = "/tweetWall/{username}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/messages/{username}", method = RequestMethod.POST)
     public void createTweet(@PathVariable String username, HttpServletResponse res, HttpServletRequest req, @RequestBody MessageEntity mess, Model model) {
         if (!authService.getAuthenticatedUserByRequest(req).equals(mess.getAuthor())) {
             res.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -69,7 +69,7 @@ public class TweetWallController {
         log.info("created tweet: " + mess);
     }
 
-    @RequestMapping(value = "/tweetWall/{username}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, method = RequestMethod.GET)
+    @RequestMapping(value = "/api/messages/{username}/{page}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, method = RequestMethod.GET)
     @ResponseBody
     public String getTweets(@PathVariable String username, @PathVariable int page, HttpServletRequest req) {
         List<String> messages;

@@ -5,25 +5,45 @@ $(document).ready(function() {
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
             if(requestDone[pageCount] == undefined && !allTweetsLoaded) {
+                let user = getCookie("client_username");
+                if (window.location.pathname.split("/").pop() === "global") {
+                    user = "global";
+                }
                 requestDone[pageCount] = true;
-                $.get(window.location.pathname+"/"+pageCount, function (data) {
+                $.get("/api/messages/" + user + "/" +pageCount, function (data) {
                     pageCount += 1;
-                    if(data.length > 0) {
-                        $.each(data, function (key, value) {
+                    if(data.messages.length > 0) {
+                        $.each(data.messages, function (key, value) {
                             var obj = JSON.parse(value);
                             console.log(obj);
-                            $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
-                                "                    <div class=\"card-header\">\n" +
-                                "                        Bitt\n" +
-                                "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
-                                "                    </div>\n" +
-                                "                    <div class=\"card-body\">\n" +
-                                "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
-                                "                    </div>\n" +
-                                "                    <div class=\"card-footer\">\n" +
-                                "                        <a href=\"#\" class=\"btn btn-success\">+ " + obj.author + "</a>\n" +
-                                "                    </div>\n" +
-                                "                </div>");
+                            if (data.subs.includes(obj.author)) {
+                                $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
+                                    "                    <div class=\"card-header\">\n" +
+                                    "                        Bitt\n" +
+                                    "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
+                                    "                    </div>\n" +
+                                    "                    <div class=\"card-body\">\n" +
+                                    "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
+                                    "                    </div>\n" +
+                                    "                    <div class=\"card-footer\">\n" +
+                                    "                        <a href=\"#\" class=\"btn btn-info\">- " + obj.author + "</a>\n" +
+                                    "                    </div>\n" +
+                                    "                </div>");
+                            } else {
+                                $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
+                                    "                    <div class=\"card-header\">\n" +
+                                    "                        Bitt\n" +
+                                    "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
+                                    "                    </div>\n" +
+                                    "                    <div class=\"card-body\">\n" +
+                                    "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
+                                    "                    </div>\n" +
+                                    "                    <div class=\"card-footer\">\n" +
+                                    "                        <a href=\"#\" class=\"btn btn-success\">+ " + obj.author + "</a>\n" +
+                                    "                    </div>\n" +
+                                    "                </div>");
+                            }
+
                         });
                     }
                     else {
@@ -43,7 +63,7 @@ $(document).ready(function() {
             "text" : $('.modal-input').val()
         };
         $('#exampleModal').modal('hide');
-        $.ajax(window.location.pathname,
+        $.ajax("/api/messages/" + author,
             {
                 "data" : JSON.stringify(bitter),
                 "method" : "POST",

@@ -26,7 +26,7 @@ public class SessionInterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SessionManager(authProperties, authService))
-                .excludePathPatterns("/", "/login", "/follow/**", "/js/**", "/css/**", "/images/**");
+                .excludePathPatterns("/", "/login", "/follow/**", "/api/**", "/js/**", "/css/**", "/images/**");
     }
 
 }
