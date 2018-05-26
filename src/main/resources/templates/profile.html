@@ -34,7 +34,32 @@
                         <h1 th:text="${userPage}"></h1>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">author</h5>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <table>
+                                        <tr>
+                                            <th>Followers</th>
+                                        </tr>
+                                        <tr th:each="follower : ${followers}">
+                                            <td><a th:text="${follower}" th:href="@{/profile/{follower}(follower=${follower})}">follower</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm">
+                                </div>
+                                <div class="col-sm">
+                                    <table>
+                                        <tr>
+                                            <th>Follows</th>
+                                        </tr>
+                                        <tr th:each="follow : ${follows}">
+                                            <td><a th:text="${follow}" th:href="@{/profile/{username}(username=${follow})}">follow</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
 
