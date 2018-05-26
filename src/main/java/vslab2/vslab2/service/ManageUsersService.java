@@ -68,4 +68,8 @@ public class ManageUsersService {
     public Set<String> getSubs(String username) {
         return dao.getSubs(username);
     }
+
+    public Set<String> getFollowers(String username) {
+        return dao.getFollowers(username);
+    }
 }

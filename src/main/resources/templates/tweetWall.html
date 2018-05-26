@@ -2,41 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dashboard</title>
-    <meta charset='utf-8' />
+    <meta charset='utf-8'/>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" type="text/css" href="/css/style.css" th:href="@{/css/style.css}">
-    <meta name="viewport" content="width=device-width, user-scalable=no" >
-    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+            integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id='wrapper'>
-    <div id='nav'>
-        <div class='left'>
-            <h1>Bitter</h1>
+    <div th:fragment="sidebar">
+        <div id='nav'>
+            <div class='left'>
+                <h1>Bitter</h1>
+            </div>
         </div>
-    </div>
-    <div class='navElement pull-left'>
-        <div class='left sidenavul'>
-            <ul>
-                <li><!--/*@thymesVar id="username" type="java.lang.String"*/-->
-                <a th:href="@{/tweetWall/{username}(username=${username})}"><i class='fas fa-user'></i> Personal</a></li>
-                <li><a th:href="@{/tweetWall/global}" ><i class='fas fa-globe'></i> Global</a></li>
-                <li><a th:href="@{/userlist}" ><i class='fas fa-users'></i> Users</a></li>
-            </ul>
+        <div class='navElement pull-left'>
+            <div class='left sidenavul'>
+                <ul>
+                    <li><!--/*@thymesVar id="username" type="java.lang.String"*/-->
+                        <a th:href="@{/tweetWall/{username}(username=${username})}"><i class='fas fa-user'></i> Personal</a>
+                    </li>
+                    <li><a th:href="@{/tweetWall/global}"><i class='fas fa-globe'></i> Global</a></li>
+                    <li><a th:href="@{/userlist}"><i class='fas fa-users'></i> Users</a></li>
+                    <li><a th:href="@{/profile/{username}(username=${username})}"><i class='fas fa-user-tie'></i> Profile</a></li>
+                </ul>
+            </div>
         </div>
     </div>
     <div id='content'>
         <div class='container-fluid'>
             <!--/*@thymesVar id="username" type="java.lang.String"*/-->
-                <div class="row" th:if="${username.equals(tweetWallOwner)}">
-                    <div class="col-md-10 mt-5 offset-md-1">
-                        <button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#exampleModal" >
-                            Create Message
-                        </button>
-                    </div>
+            <div class="row" th:if="${username.equals(tweetWallOwner)}">
+                <div class="col-md-10 mt-5 offset-md-1">
+                    <button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#exampleModal">
+                        Create Message
+                    </button>
                 </div>
-                <div class="row" id="tweetwall">
+            </div>
+            <div class="row" id="tweetwall">
 
 
                 <div class="card col-md-10 mt-5 offset-md-1" th:each="message : ${messages}">
@@ -47,26 +52,31 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${message.text}">author</h5>
                     </div>
-                    <div class="card-footer"  th:with="followsAuthor=${subs.contains(message.author)}">
+                    <div class="card-footer" th:with="followsAuthor=${subs.contains(message.author)}">
                         <button
                                 th:class="${followsAuthor}?'btn btn-info followButton':'btn btn-success followButton'"
-                                th:text="${followsAuthor}?'- ' + ${message.author} : '+ ' + ${message.author}">+ Follow</button>
+                                th:text="${followsAuthor}?'- ' + ${message.author} : '+ ' + ${message.author}">+ Follow
+                        </button>
                     </div>
                 </div>
 
 
             </div>
 
-            </div>
         </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 <script src="/js/script.js" th:href="@{/js/script.js}"></script>
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

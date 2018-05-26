@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <meta charset='utf-8' />
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}">
+    <meta name="viewport" content="width=device-width, user-scalable=no" >
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+            integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div th:insert="~{tweetWall ::sidebar}"></div>
+
+
+    <div id='content'>
+        <div class='container-fluid'>
+            <!--/*@thymesVar id="username" type="java.lang.String"*/-->
+            <div class="row" th:if="${username.equals(tweetWallOwner)}">
+                <div class="col-md-10 mt-5 offset-md-1">
+                    <button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#exampleModal">
+                        Create Message
+                    </button>
+                </div>
+            </div>
+            <div class="row" id="tweetwall">
+
+
+                <div class="card col-md-10 mt-5 offset-md-1">
+                    <div class="card-header">
+                        <h1 th:text="${userPage}"></h1>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">author</h5>
+                    </div>
+                    <div class="card-footer">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- javascript libs -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</body>
+</html>
