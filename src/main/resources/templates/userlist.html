@@ -15,12 +15,18 @@
 <div id='wrapper'>
     <div th:insert="~{tweetWall ::sidebar}"></div>
     <div id='content'>
+
+        <div class="input-group input-group-md col-md-6 offset-md-3 mt-3">
+            <div class="input-group-prepend">
+                <i class='fas fa-search'></i>
+            </div>
+            <input type="text" list="searchresults" class="userSearchInput" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+            <datalist id="searchresults"></datalist>
+        </div>
+
         <div class='container-fluid'>
             <div class="row">
-
-
-
-                <div class="mt-5 col-md-3 offset-md-1">
+                <div class="mt-5 col-md-2 offset-md-5 col-xs-10 offset-xs-2">
                     <div class="card">
                         <img class="card-img-top" src="images/placeholder.png" alt="Card image cap">
                         <div class="card-body">
@@ -41,5 +47,6 @@
     </div>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap-js.js"></script>
+<script src="/js/script.js" th:href="@{/js/script.js}"></script>
 </body>
 </html>

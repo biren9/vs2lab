@@ -109,6 +109,20 @@ $(document).ready(function() {
                 "contentType" : "application/json"
         });
     });
+    $(".userSearchInput").keydown(function() {
+        let userString = $(this).val();
+        let dataList = $("#searchresults");
+        if(userString.length > 0) {
+            $.get("/api/usersearch/"+userString, function(data) {
+                var obj = JSON.parse(data);
+                dataList.empty();
+                for(var i=0, len=obj.length; i<len; i++) {
+                    var opt = $("<option></option>").attr("value", obj[i]);
+                    dataList.append(opt);
+                }
+            });
+        }
+    })
 });
 
 function getCookie(name) {
