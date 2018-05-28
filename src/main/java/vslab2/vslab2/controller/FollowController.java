@@ -25,7 +25,7 @@ public class FollowController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/follow/{username}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/follow/{username}", method = RequestMethod.POST)
     public void followUser(
             @PathVariable String username,
             @RequestBody FollowRequestEntity followRequest,
@@ -36,5 +36,18 @@ public class FollowController {
             return;
         }
         service.addSub(username, followRequest.getFollow());
+    }
+
+    @RequestMapping(value = "/api/unfollow/{username}", method = RequestMethod.POST)
+    public void unfollowUser(
+            @PathVariable String username,
+            @RequestBody FollowRequestEntity unfollowRequest,
+            HttpServletRequest req,
+            HttpServletResponse res) {
+        if (!authService.getAuthenticatedUserByRequest(req).equals(username)) {
+            res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+        service.delSub(username, unfollowRequest.getFollow());
     }
 }

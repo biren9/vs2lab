@@ -37,4 +37,5 @@ public interface BitterDB {
     String getUserBySessionToken(String token);
 
     List<String> getTimelineMessages(String username, long start, long stop);
+
 }

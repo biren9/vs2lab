@@ -4,7 +4,7 @@ $(document).ready(function() {
     let requestDone = new Array();
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-            if(requestDone[pageCount] == undefined && !allTweetsLoaded) {
+            if(requestDone[pageCount] === undefined && !allTweetsLoaded) {
                 let user = getCookie("client_username");
                 if (window.location.pathname.split("/").pop() === "global") {
                     user = "global";
@@ -84,15 +84,24 @@ $(document).ready(function() {
         let buttonText = $(this).text();
         let extract = buttonText.lastIndexOf(' ');
         let userToFollow = buttonText.substring(extract + 1);
+        let apiPath = buttonText.substring(0, 1) === '+'? 'follow' : 'unfollow';
         let user = getCookie("client_username");
-        let targetUrl = "/follow/" + user;
+        let targetUrl = "/api/"+apiPath+"/" + user;
         $.ajax(targetUrl, {
                 "data" : JSON.stringify({follow: userToFollow}),
                 "method" : "POST",
-                "success" : function(data, _) {
-                    button.removeClass("btn-success");
-                    button.addClass("btn-info");
-                    button.text("- " + userToFollow);
+                "success" : function(data) {
+                    console.log(apiPath);
+                    if(apiPath === "follow") {
+                        button.removeClass("btn-success");
+                        button.addClass("btn-info");
+                        button.text("- " + userToFollow);
+                    }
+                    else {
+                        button.removeClass("btn-info");
+                        button.addClass("btn-success");
+                        button.text("+ " + userToFollow);
+                    }
                 },
                 "error": function(_, status, error ) {
                     console.log(error);

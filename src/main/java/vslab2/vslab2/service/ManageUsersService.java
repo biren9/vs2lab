@@ -65,6 +65,10 @@ public class ManageUsersService {
         dao.addSub(username, subscribedUser);
     }
 
+    public void delSub(String username, String subscribedUser) {
+        dao.removeSub(username, subscribedUser);
+    }
+
     public Set<String> getSubs(String username) {
         return dao.getSubs(username);
     }
