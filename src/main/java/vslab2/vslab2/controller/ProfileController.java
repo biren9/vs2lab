@@ -10,6 +10,7 @@ import vslab2.vslab2.service.ManageUsersService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Set;
 
 @Controller
 public class ProfileController {
@@ -28,9 +29,14 @@ public class ProfileController {
             Model model,
             HttpServletRequest req)
     {
+        Set<String> sub = service.getSubs(username);
+        sub.remove(username);
+        Set<String> followers = service.getFollowers(username);
+        followers.remove(username);
+
         model.addAttribute("userPage", username);
-        model.addAttribute("follows", service.getSubs(username));
-        model.addAttribute("followers", service.getFollowers(username));
+        model.addAttribute("follows", sub);
+        model.addAttribute("followers", followers);
 
         return  "profile";
     }
