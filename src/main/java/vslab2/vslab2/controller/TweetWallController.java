@@ -1,6 +1,7 @@
 package vslab2.vslab2.controller;
 
 import com.google.gson.Gson;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.slf4j.Logger;
@@ -83,5 +84,12 @@ public class TweetWallController {
         }
 
         return gson.toJson(new MessagePageEntity(subscriptions, messages));
+    }
+
+    @RequestMapping(value = "/api/logout", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseBody
+    public String logout(@CookieValue("sessionToken") String session) {
+        service.deleteSession(session);
+        return gson.toJson(true);
     }
 }

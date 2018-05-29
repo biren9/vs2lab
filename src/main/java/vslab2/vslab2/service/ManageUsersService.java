@@ -76,4 +76,8 @@ public class ManageUsersService {
     public Set<String> getFollowers(String username) {
         return dao.getFollowers(username);
     }
+
+    public void deleteSession(String sessionToken) {
+        dao.deleteSession(sessionToken);
+    }
 }

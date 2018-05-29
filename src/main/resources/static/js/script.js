@@ -122,7 +122,15 @@ $(document).ready(function() {
                 }
             });
         }
-    })
+    });
+    $(".toggleLogout").click(function (e) {
+        e.preventDefault();
+        $.get("/api/logout", function(data) {
+            if(data) {
+                window.location.href = "/";
+            }
+        });
+    });
 });
 
 function getCookie(name) {
