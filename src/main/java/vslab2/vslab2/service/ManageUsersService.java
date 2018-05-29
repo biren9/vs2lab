@@ -80,4 +80,11 @@ public class ManageUsersService {
     public void deleteSession(String sessionToken) {
         dao.deleteSession(sessionToken);
     }
+
+    /**
+     * see {@link vslab2.vslab2.dbLayer.BitterDBImpl#getUsersPageMatchingPattern(String, int)}
+     */
+    public Set<String> getUsersPageMatchingPattern(String pattern, int pageSize) {
+        return dao.getUsersPageMatchingPattern(pattern, pageSize);
+    }
 }

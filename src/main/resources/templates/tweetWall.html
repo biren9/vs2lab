@@ -55,7 +55,7 @@
                         <h5 class="card-title" th:text="${message.text}">author</h5>
                     </div>
                     <div class="card-footer" th:with="followsAuthor=${subs.contains(message.author)}">
-                        <button
+                        <button th:if="${not username.equals(message.author)}"
                                 th:class="${followsAuthor}?'btn btn-info followButton':'btn btn-success followButton'"
                                 th:text="${followsAuthor}?'- ' + ${message.author} : '+ ' + ${message.author}">+ Follow
                         </button>

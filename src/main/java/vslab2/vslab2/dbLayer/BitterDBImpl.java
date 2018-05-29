@@ -1,6 +1,9 @@
 package vslab2.vslab2.dbLayer;
 
 import com.google.gson.Gson;
+import org.apache.commons.text.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Repository;
@@ -15,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class BitterDBImpl implements BitterDB {
 
     private final RedisTemplate<String, String> template;
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private ListOperations<String, String> listOps;
     private SetOperations<String, String> setOps;
@@ -50,13 +54,37 @@ public class BitterDBImpl implements BitterDB {
     @Override
     public void generateTestData() {
         template.getConnectionFactory().getConnection().serverCommands().flushAll();
-        addSub("pknp","pknp");
+        addSub("pknp", "pknp");
         createUser("pknp", "pknp");
-        for (int i = 0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
             addMessage("pknp", "Nachricht" + i);
+            createUser("test" + i, "test");
         }
     }
-    
+
+    //possible REGEX DDOS ¯\_(ツ)_/¯
+    //TODO: escape pattern
+    /**
+     *
+     * @param pattern search for users with pattern as prefix.
+     * @param pageSize amount distinct users to be returned.
+     * @return a page of users.
+     */
+    @Override
+    public Set<String> getUsersPageMatchingPattern(String pattern, int pageSize) {
+        ScanOptions options = ScanOptions.scanOptions().match(pattern + "*").build();
+        Set<String> result = new HashSet<>();
+        Cursor c = setOps.scan("users", options);
+        try {
+            while ((result.size() != pageSize) && c.hasNext()) {
+                result.add((String) c.next());
+            }
+        } catch (NoSuchElementException nse) {
+            log.debug("search users page with pattern failed");
+        }
+        return result;
+    }
+
     @Override
     public void createUser(String username, String password) {
         Map<String, String> attr = new HashMap<>();
@@ -66,7 +94,7 @@ public class BitterDBImpl implements BitterDB {
     }
 
     @Override
-    public void deleleteUser(String username) {
+    public void deleteUser(String username) {
         template.delete(username);
         setOps.remove(BITTER_USERS_SET, username);
     }
@@ -77,7 +105,7 @@ public class BitterDBImpl implements BitterDB {
     public String getUserPassword(String username) {
         return hashOps.get(username, "password");
     }
-    
+
     @Override
     public Set<String> getSubs(String username) {
         return setOps.members(BITTER_SUBSCRIPTIONS_PREFIX + username);
@@ -88,7 +116,7 @@ public class BitterDBImpl implements BitterDB {
         setOps.add(BITTER_SUBSCRIPTIONS_PREFIX + username, subscribedUser);
         setOps.add(BITTER_FOLLOWERS_PREFIX + subscribedUser, username);
     }
-    
+
     @Override
     public void removeSub(String username, String subscribedUser) {
         setOps.remove(BITTER_SUBSCRIPTIONS_PREFIX + username, subscribedUser);
@@ -108,7 +136,7 @@ public class BitterDBImpl implements BitterDB {
             listOps.leftPush(BITTER_TIMELINE_PREFIX + follower, gson.toJson(msg));
         }
         listOps.leftPush(BITTER_GLOBAL_TIMELINE, gson.toJson(msg));
-        listOps.leftPush(BITTER_MESSAGES_PREFIX + author ,  gson.toJson(msg));
+        listOps.leftPush(BITTER_MESSAGES_PREFIX + author, gson.toJson(msg));
 
     }
 

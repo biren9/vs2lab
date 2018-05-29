@@ -9,9 +9,11 @@ public interface BitterDB {
 
     void generateTestData();
 
+    Set<String> getUsersPageMatchingPattern(String pattern, int pageSize);
+
     void createUser(String username, String password);
 
-    void deleleteUser(String username);
+    void deleteUser(String username);
 
     //security level : OVER 9000
     String getUserPassword(String username);
