@@ -34,6 +34,8 @@ public interface BitterDB {
 
     void saveSession(String username, long minutesDuration, String uuid);
 
+    void deleteSession(String sessionToken);
+
     String getUserBySessionToken(String token);
 
     List<String> getTimelineMessages(String username, long start, long stop);

@@ -118,6 +118,11 @@ public class BitterDBImpl implements BitterDB {
     }
 
     @Override
+    public void deleteSession(String sessionToken) {
+        template.delete(sessionToken);
+    }
+
+    @Override
     public String getUserBySessionToken(String token) {
         return valOps.get(token);
     }
