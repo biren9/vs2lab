@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import vslab2.vslab2.entity.MessageEntity;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -81,6 +82,12 @@ public class BitterDBImpl implements BitterDB {
             }
         } catch (NoSuchElementException nse) {
             log.debug("search users page with pattern failed");
+        } finally {
+            try {
+                c.close();
+            } catch (IOException e) {
+                log.error("IOException while getting users");
+            }
         }
         return result;
     }
