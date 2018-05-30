@@ -37,7 +37,8 @@
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">Some content</p>
                             <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
-                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}">+ Follow</button>
+                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}"
+                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow</button>
                         </div>
                     </div>
                 </div>
@@ -52,7 +53,8 @@
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">Some content</p>
                             <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
-                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}">+ Follow</button>
+                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}"
+                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow</button>
                         </div>
                     </div>
                 </div>
@@ -67,7 +69,8 @@
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">Some content</p>
                             <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
-                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}">+ Follow</button>
+                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}"
+                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow</button>
                         </div>
                     </div>
                 </div>
