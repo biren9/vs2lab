@@ -36,7 +36,8 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">Some content</p>
-                            <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'">+ Follow</button>
+                            <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
+                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}">+ Follow</button>
                         </div>
                     </div>
                 </div>
@@ -50,21 +51,23 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">Some content</p>
-                            <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'">+ Follow</button>
+                            <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
+                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}">+ Follow</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col"
+                     th:with="followsUser=${subs.contains(user)}"
                      th:each="user, iterStat : ${users}"
-                     th:if="${iterStat.index} gt 7"
-                     th:with="followsUser=${subs.contains(user)}">
+                     th:if="${iterStat.index} gt 7">
                     <div class="card user-card" >
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">Some content</p>
-                            <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'">+ Follow</button>
+                            <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
+                                    th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}">+ Follow</button>
                         </div>
                     </div>
                 </div>
