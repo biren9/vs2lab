@@ -17,47 +17,27 @@ $(document).ready(function() {
                             var obj = JSON.parse(value);
                             console.log(obj);
                             var currentUser = getCookie("client_username");
+                            var followButton;
                             if(currentUser === obj.author) {
-                                $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
-                                    "                    <div class=\"card-header\">\n" +
-                                    "                        Bitt\n" +
-                                    "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-body\">\n" +
-                                    "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-footer\">\n" +
-                                    "                    </div>\n" +
-                                    "                </div>");
-                            }
-                            else if (data.subs.includes(obj.author)) {
-                                $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
-                                    "                    <div class=\"card-header\">\n" +
-                                    "                        Bitt\n" +
-                                    "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-body\">\n" +
-                                    "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-footer\">\n" +
-                                    "                        <button class='btn btn-info followButton'>- " + obj.author + "</button>\n" +
-                                    "                    </div>\n" +
-                                    "                </div>");
+                                followButton = "";
+                            } else if (data.subs.includes(obj.author)) {
+                                followButton = "<button class='btn btn-info followButton'>- " + obj.author + "</button>";
                             } else {
-                                $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
-                                    "                    <div class=\"card-header\">\n" +
-                                    "                        Bitt\n" +
-                                    "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-body\">\n" +
-                                    "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
-                                    "                    </div>\n" +
-                                    "                    <div class=\"card-footer\">\n" +
-                                    "                        <button class='btn btn-success followButton'>+ " + obj.author + "</button>\n" +
-                                    "                    </div>\n" +
-                                    "                </div>");
+                                followButton = "<button class='btn btn-success followButton'>+ " + obj.author + "</button>";
                             }
 
+                            $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
+                                "                    <div class=\"card-header\">\n" +
+                                "                        Bitt\n" +
+                                "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
+                                "                    </div>\n" +
+                                "                    <div class=\"card-body\">\n" +
+                                "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
+                                "                    </div>\n" +
+                                "                    <div class=\"card-footer\">\n" +
+                                followButton+
+                                "                    </div>\n" +
+                                "                </div>");
                         });
                         followListener();
                     }
