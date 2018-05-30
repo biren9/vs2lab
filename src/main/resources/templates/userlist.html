@@ -28,7 +28,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-3" th:each="user, iterStat : ${users}" th:if="${iterStat.index} lt 4">
+                <div class="col" th:each="user, iterStat : ${users}" th:if="${iterStat.index} lt 4">
                     <div class="card user-card" >
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-3" th:each="user, iterStat : ${users}" th:if="${iterStat.index} gt 3 and ${iterStat.index} lt 8">
+                <div class="col" th:each="user, iterStat : ${users}" th:if="${iterStat.index} gt 3 and ${iterStat.index} lt 8">
                     <div class="card user-card" >
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-3" th:each="user, iterStat : ${users}" th:if="${iterStat.index} gt 7">
+                <div class="col" th:each="user, iterStat : ${users}" th:if="${iterStat.index} gt 7">
                     <div class="card user-card" >
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
