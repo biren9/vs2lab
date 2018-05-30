@@ -2,14 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dashboard</title>
-    <meta charset='utf-8' />
+    <meta charset='utf-8'/>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" type="text/css" href="/css/fontawsome.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css" th:href="@{/css/style.css}">
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
-            integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
-    <meta name="viewport" content="width=device-width, user-scalable=no" >
+            integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 <body>
 <div id='wrapper'>
@@ -20,31 +21,61 @@
             <div class="input-group-prepend">
                 <i class='fas fa-search'></i>
             </div>
-            <input type="text" list="searchresults" class="userSearchInput w-100" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+            <input type="text" list="searchresults" class="userSearchInput w-100" aria-label="Large"
+                   aria-describedby="inputGroup-sizing-sm">
             <datalist id="searchresults"></datalist>
         </div>
 
-        <div class='container-fluid'>
+        <div class="container-fluid">
             <div class="row">
-                <div class="mt-5 col-md-2 offset-md-5 col-xs-10 offset-xs-2">
-                    <div class="card">
-                        <img class="card-img-top" src="images/placeholder.png" alt="Card image cap">
+                <div class="col" th:each="user, iterStat : ${users}" th:if="${iterStat.index} lt 4">
+                    <div class="card user-card" >
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <h5 class="card-title" th:text="${user}">Card title</h5>
+                            <p class="card-text">Some content</p>
                             <button class="btn btn-success followButton">+ Follow</button>
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
-
+            <div class="row">
+                <div class="col" th:each="user, iterStat : ${users}" th:if="${iterStat.index} gt 3 and ${iterStat.index} lt 8">
+                    <div class="card user-card" >
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${user}">Card title</h5>
+                            <p class="card-text">Some content</p>
+                            <button class="btn btn-success followButton">+ Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" th:each="user, iterStat : ${users}" th:if="${iterStat.index} gt 7">
+                    <div class="card user-card" >
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${user}">Card title</h5>
+                            <p class="card-text">Some content</p>
+                            <button class="btn btn-success followButton">+ Follow</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/userlist/{pageNumber}(pageNumber=${T(java.lang.Math).max(0, pageNumber - 1)})}" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/userlist/{pageNumber}(pageNumber=${pageNumber + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+
     </div>
+</div>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap-js.js"></script>
 <script src="/js/script.js" th:href="@{/js/script.js}"></script>

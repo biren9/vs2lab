@@ -5,8 +5,11 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Repository;
+import reactor.util.annotation.Nullable;
+import vslab2.vslab2.controller.UserListController;
 import vslab2.vslab2.entity.MessageEntity;
 
 import javax.annotation.PostConstruct;
@@ -72,12 +75,18 @@ public class BitterDBImpl implements BitterDB {
      * @return a page of users.
      */
     @Override
-    public Set<String> getUsersPageMatchingPattern(String pattern, int pageSize) {
-        ScanOptions options = ScanOptions.scanOptions().match(pattern + "*").build();
+    public Set<String> getUsersPageMatchingPattern(@Nullable String pattern, int pageSize, int pageNumber) {
+        ScanOptions options = (pattern != null) ?
+                ScanOptions.scanOptions().match(pattern + "*").build()
+                : ScanOptions.scanOptions().build();
         Set<String> result = new HashSet<>();
         Cursor c = setOps.scan("users", options);
         try {
-            while ((result.size() != pageSize) && c.hasNext()) {
+            int resultsToSkip = UserListController.USERS_LIST_PAGE_SIZE * pageNumber;
+            while(c.hasNext() && resultsToSkip-- > 0) {
+                c.next();
+            }
+            while (c.hasNext() && (result.size() != pageSize)) {
                 result.add((String) c.next());
             }
         } catch (NoSuchElementException nse) {
