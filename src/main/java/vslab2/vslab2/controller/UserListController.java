@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +15,8 @@ import vslab2.vslab2.service.ManageUsersService;
 public class UserListController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private static final int USERS_SEACH_PAGE_SIZE = 10;
+    private static final int USERS_SEARCH_PAGE_SIZE = 10;
+    public static final int USERS_LIST_PAGE_SIZE = 12;
 
     private final ManageUsersService service;
     private final Gson gson;
@@ -27,16 +27,16 @@ public class UserListController {
         this.gson = gson;
     }
 
-    @RequestMapping(value = "/userlist")
-    public String getUserList() {
+    @RequestMapping(value = "/userlist/{pageNumber}")
+    public String getUserList(Model model, @PathVariable("pageNumber") int pageNumber) {
+        model.addAttribute("users", service.getUsersPageMatchingPattern(null, USERS_LIST_PAGE_SIZE, pageNumber).toArray());
+        model.addAttribute("pageNumber", pageNumber);
         return  "userlist";
     }
 
     @RequestMapping(value = "/api/usersearch/{searchPattern}")
     @ResponseBody
     public String searchForUsers(@PathVariable("searchPattern") String searchPattern) {
-        log.info("????");
-        log.info(gson.toJson(service.getUsersPageMatchingPattern(searchPattern, USERS_SEACH_PAGE_SIZE).toArray()));
-        return gson.toJson(service.getUsersPageMatchingPattern(searchPattern, USERS_SEACH_PAGE_SIZE).toArray());
+        return gson.toJson(service.getUsersPageMatchingPattern(searchPattern, USERS_SEARCH_PAGE_SIZE, 0).toArray());
     }
 }

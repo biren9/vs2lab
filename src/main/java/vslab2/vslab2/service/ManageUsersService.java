@@ -82,9 +82,9 @@ public class ManageUsersService {
     }
 
     /**
-     * see {@link vslab2.vslab2.dbLayer.BitterDBImpl#getUsersPageMatchingPattern(String, int)}
+     * see {@link vslab2.vslab2.dbLayer.BitterDBImpl#getUsersPageMatchingPattern(String, int, int)}
      */
-    public Set<String> getUsersPageMatchingPattern(String pattern, int pageSize) {
-        return dao.getUsersPageMatchingPattern(pattern, pageSize);
+    public Set<String> getUsersPageMatchingPattern(String pattern, int pageSize, int pageNumber) {
+        return dao.getUsersPageMatchingPattern(pattern, pageSize, pageNumber);
     }
 }

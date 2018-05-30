@@ -9,7 +9,7 @@ public interface BitterDB {
 
     void generateTestData();
 
-    Set<String> getUsersPageMatchingPattern(String pattern, int pageSize);
+    Set<String> getUsersPageMatchingPattern(String pattern, int pageSize, int pageNumber);
 
     void createUser(String username, String password);
 
