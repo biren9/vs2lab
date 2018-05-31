@@ -37,6 +37,7 @@ public class UserListController {
     @RequestMapping(value = "/api/usersearch/{searchPattern}")
     @ResponseBody
     public String searchForUsers(@PathVariable("searchPattern") String searchPattern) {
+        searchPattern = searchPattern.toLowerCase();
         return gson.toJson(service.getUsersPageMatchingPattern(searchPattern, USERS_SEARCH_PAGE_SIZE, 0).toArray());
     }
 }

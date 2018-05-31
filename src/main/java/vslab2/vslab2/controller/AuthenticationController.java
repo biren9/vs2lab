@@ -53,6 +53,7 @@ public class AuthenticationController {
             if (username == null || password == null) {
                 return "error";
             }
+            username = username.toLowerCase();
             service.registerUser(username, password);
             authService.handleLoginRequest(request, response, username, password);
             log.info("registered user: " + username +" with password: " + password);

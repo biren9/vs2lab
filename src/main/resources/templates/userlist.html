@@ -32,13 +32,14 @@
                      th:each="user, iterStat : ${users}"
                      th:if="${iterStat.index} lt 4"
                      th:with="followsUser=${subs.contains(user)}">
-                    <div class="card user-card" >
+                    <div class="card user-card">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">this user has no bio</p>
                             <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
                                     th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}"
-                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow</button>
+                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -48,13 +49,14 @@
                      th:each="user, iterStat : ${users}"
                      th:if="${iterStat.index} gt 3 and ${iterStat.index} lt 8"
                      th:with="followsUser=${subs.contains(user)}">
-                    <div class="card user-card" >
+                    <div class="card user-card">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">this user has no bio</p>
                             <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
                                     th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}"
-                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow</button>
+                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -64,13 +66,14 @@
                      th:with="followsUser=${subs.contains(user)}"
                      th:each="user, iterStat : ${users}"
                      th:if="${iterStat.index} gt 7">
-                    <div class="card user-card" >
+                    <div class="card user-card">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${user}">Card title</h5>
                             <p class="card-text">this user has no bio</p>
                             <button th:class="${followsUser}?'btn btn-info followButton':'btn btn-success followButton'"
                                     th:text="${followsUser}?'- ' + ${user} : '+ ' + ${user}"
-                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow</button>
+                                    th:style="'visibility:' + (${username.equals(user)}? 'HIDDEN': 'VISIBLE')">+ Follow
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +83,9 @@
         <nav aria-label="Page navigation" class="page-nav">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" th:href="@{/userlist/{pageNumber}(pageNumber=${T(java.lang.Math).max(0, pageNumber - 1)})}" tabindex="-1">Previous</a>
+                    <a class="page-link"
+                       th:href="@{/userlist/{pageNumber}(pageNumber=${T(java.lang.Math).max(0, pageNumber - 1)})}"
+                       tabindex="-1">Previous</a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" th:href="@{/userlist/{pageNumber}(pageNumber=${pageNumber + 1})}">Next</a>
