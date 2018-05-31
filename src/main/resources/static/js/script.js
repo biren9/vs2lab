@@ -19,7 +19,7 @@ $(document).ready(function() {
                             var currentUser = getCookie("client_username");
                             var followButton;
                             if(currentUser === obj.author) {
-                                followButton = "";
+                                followButton = "<button class='btn btn-info followButton' style='visibility: HIDDEN'>- " + obj.author + "</button>";
                             } else if (data.subs.includes(obj.author)) {
                                 followButton = "<button class='btn btn-info followButton'>- " + obj.author + "</button>";
                             } else {
