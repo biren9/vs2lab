@@ -112,7 +112,7 @@ $(document).ready(function() {
         let userString = $(this).val();
         console.log(e.keyCode);
         if(e.keyCode == 13) { // Enter press
-            window.location.href = "/userlist/searchList/"+userString;
+            window.location.href = "/userlist/search/"+userString  + "/0";
         }
         else {
             let dataList = $("#searchresults");
@@ -139,7 +139,7 @@ $(document).ready(function() {
     $(".userSearchButton").click(function(e) {
         e.preventDefault();
         let userLookup = $(".userSearchInput").val();
-        window.location.href = "/userlist/searchList/"+userLookup;
+        window.location.href = "/userlist/search/"+userLookup + "/0";
     });
 });
 

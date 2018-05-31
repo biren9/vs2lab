@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import vslab2.vslab2.service.ManageUsersService;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class UserListController {
 
@@ -30,6 +32,14 @@ public class UserListController {
     @RequestMapping(value = "/userlist/{pageNumber}")
     public String getUserList(Model model, @PathVariable("pageNumber") int pageNumber) {
         model.addAttribute("users", service.getUsersPageMatchingPattern(null, USERS_LIST_PAGE_SIZE, pageNumber).toArray());
+        model.addAttribute("pageNumber", pageNumber);
+        return  "userlist";
+    }
+
+    @RequestMapping(value = "/userlist/search/{searchPattern}/{pageNumber}")
+    public String getUserList(Model model, @PathVariable("searchPattern") String searchPattern, @PathVariable("pageNumber") int pageNumber) {
+        searchPattern = searchPattern.toLowerCase();
+        model.addAttribute("users", service.getUsersPageMatchingPattern(searchPattern, USERS_LIST_PAGE_SIZE, pageNumber).toArray());
         model.addAttribute("pageNumber", pageNumber);
         return  "userlist";
     }
