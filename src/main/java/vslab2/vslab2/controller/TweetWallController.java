@@ -30,6 +30,8 @@ public class TweetWallController {
 
     private final AuthenticationService authService;
 
+    private static final int MAX_MESSAGE_LENGTH = 140;
+
     @Autowired
     public TweetWallController(Gson gson, ManageUsersService service, AuthenticationService authenticationService) {
         this.gson = gson;
@@ -66,6 +68,7 @@ public class TweetWallController {
             res.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
+        mess.setText(mess.getText().substring(0, MAX_MESSAGE_LENGTH));
         service.addMessage(mess);
         log.info("created tweet: " + mess);
     }
