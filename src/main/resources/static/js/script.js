@@ -108,18 +108,24 @@ $(document).ready(function() {
         });
     }
     followListener();
-    $(".userSearchInput").keydown(function() {
+    $(".userSearchInput").keypress(function(e) {
         let userString = $(this).val();
-        let dataList = $("#searchresults");
-        if(userString.length > 0) {
-            $.get("/api/usersearch/"+userString, function(data) {
-                var obj = JSON.parse(data);
-                dataList.empty();
-                for(var i=0, len=obj.length; i<len; i++) {
-                    var opt = $("<option></option>").attr("value", obj[i]);
-                    dataList.append(opt);
-                }
-            });
+        console.log(e.keyCode);
+        if(e.keyCode == 13) { // Enter press
+            window.location.href = "/userlist/searchList/"+userString;
+        }
+        else {
+            let dataList = $("#searchresults");
+            if(userString.length > 0) {
+                $.get("/api/usersearch/"+userString, function(data) {
+                    var obj = JSON.parse(data);
+                    dataList.empty();
+                    for(var i=0, len=obj.length; i<len; i++) {
+                        var opt = $("<option></option>").attr("value", obj[i]);
+                        dataList.append(opt);
+                    }
+                });
+            }
         }
     });
     $(".toggleLogout").click(function (e) {
@@ -129,6 +135,11 @@ $(document).ready(function() {
                 window.location.href = "/";
             }
         });
+    });
+    $(".userSearchButton").click(function(e) {
+        e.preventDefault();
+        let userLookup = $(".userSearchInput").val();
+        window.location.href = "/userlist/searchList/"+userLookup;
     });
 });
 

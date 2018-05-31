@@ -18,12 +18,11 @@
     <div id='content'>
 
         <div class="input-group input-group-md col-md-6 offset-md-3 mt-3">
-            <div class="input-group-prepend">
-                <i class='fas fa-search'></i>
-            </div>
-            <input type="text" list="searchresults" class="userSearchInput w-100" aria-label="Large"
-                   aria-describedby="inputGroup-sizing-sm">
+            <input type="text" list="searchresults" class="userSearchInput w-75" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
             <datalist id="searchresults"></datalist>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary userSearchButton" type="button">Search</button>
+            </div>
         </div>
 
         <div class="container-fluid">
