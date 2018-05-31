@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <nav aria-label="Page navigation">
+        <nav aria-label="Page navigation" class="page-nav">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
                     <a class="page-link" th:href="@{/userlist/{pageNumber}(pageNumber=${T(java.lang.Math).max(0, pageNumber - 1)})}" tabindex="-1">Previous</a>

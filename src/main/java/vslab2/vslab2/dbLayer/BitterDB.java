@@ -11,7 +11,7 @@ public interface BitterDB {
 
     Set<String> getUsersPageMatchingPattern(String pattern, int pageSize, int pageNumber);
 
-    void createUser(String username, String password);
+    boolean createUser(String username, String password);
 
     void deleteUser(String username);
 
@@ -41,5 +41,7 @@ public interface BitterDB {
     String getUserBySessionToken(String token);
 
     List<String> getTimelineMessages(String username, long start, long stop);
+
+    boolean userExists(String username);
 
 }

@@ -102,11 +102,14 @@ public class BitterDBImpl implements BitterDB {
     }
 
     @Override
-    public void createUser(String username, String password) {
-        Map<String, String> attr = new HashMap<>();
+    public boolean createUser(String username, String password) {
+        if (userExists(username)) {
+            return false;
+        }
         //saving passwords in plaintext ¯\_(ツ)_/¯
         hashOps.put(username, "password", password);
         setOps.add(BITTER_USERS_SET, username);
+        return true;
     }
 
     @Override
@@ -174,6 +177,11 @@ public class BitterDBImpl implements BitterDB {
     @Override
     public List<String> getTimelineMessages(String username, long start, long stop) {
         return listOps.range(BITTER_TIMELINE_PREFIX + username, start, stop);
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        return setOps.isMember(BITTER_USERS_SET, username);
     }
 
     @Override
