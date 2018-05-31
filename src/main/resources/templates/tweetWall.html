@@ -47,8 +47,8 @@
 
 
                 <div class="card col-md-10 mt-5 offset-md-1" th:each="message : ${messages}">
-                    <div class="card-header">
-                        Bitt
+                    <div class="card-header" >
+                        [[${message.author}]]
                         <span class="right small" th:text="${message.timestamp}">timestamp</span>
                     </div>
                     <div class="card-body">
