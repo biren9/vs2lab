@@ -27,8 +27,7 @@ $(document).ready(function() {
                             }
 
                             $("#tweetwall").append("<div class=\"card col-md-10 mt-5 offset-md-1\">\n" +
-                                "                    <div class=\"card-header\">\n" +
-                                "                        Bitt\n" +
+                                "                    <div class=\"card-header\">\n" + obj.author +
                                 "                        <span class=\"right small\">" + obj.timestamp + "</span>\n" +
                                 "                    </div>\n" +
                                 "                    <div class=\"card-body\">\n" +
