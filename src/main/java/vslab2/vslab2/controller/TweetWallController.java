@@ -68,7 +68,7 @@ public class TweetWallController {
             res.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
-        mess.setText(mess.getText().substring(0, MAX_MESSAGE_LENGTH));
+        mess.setText(mess.getText().substring(0, Math.min(MAX_MESSAGE_LENGTH, mess.getText().length())));
         service.addMessage(mess);
         log.info("created tweet: " + mess);
     }

@@ -109,6 +109,7 @@ public class BitterDBImpl implements BitterDB {
         //saving passwords in plaintext ¯\_(ツ)_/¯
         hashOps.put(username, "password", password);
         setOps.add(BITTER_USERS_SET, username);
+        addSub(username, username);
         return true;
     }
 
