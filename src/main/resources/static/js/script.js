@@ -166,9 +166,9 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/topic/global', function (message) {
             //showGreeting(JSON.parse(greeting.body).content);
-            showNotification("implement");
+            showNotification("implement" + message);
         });
     });
 }
