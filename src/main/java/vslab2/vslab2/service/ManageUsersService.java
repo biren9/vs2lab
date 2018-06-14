@@ -21,12 +21,15 @@ public class ManageUsersService {
 
     private final AuthProperties authProperties;
 
+    private final SocketSenderService socketSenderService;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    public ManageUsersService(BitterDB dao, AuthProperties authProperties) {
+    public ManageUsersService(BitterDB dao, AuthProperties authProperties, SocketSenderService socketSenderService) {
         this.dao = dao;
         this.authProperties = authProperties;
+        this.socketSenderService = socketSenderService;
     }
 
     @PostConstruct
@@ -53,10 +56,12 @@ public class ManageUsersService {
     }
 
     public void addMessage(String username, String text) {
+        socketSenderService.sendGlobalMessage("fesfse");
         dao.addMessage(username, text);
     }
 
     public void addMessage(MessageEntity msg) {
+        socketSenderService.sendGlobalMessage("fesfse");
         msg.setTimestamp(new Date());
         dao.addMessage(msg);
     }
