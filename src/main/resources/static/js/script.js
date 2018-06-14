@@ -142,6 +142,10 @@ $(document).ready(function() {
         window.location.href = "/userlist/search/"+userLookup + "/0";
     });
 
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('[autofocus]').focus();
+    });
+
     //Connect sockets
     connect();
 });
@@ -164,11 +168,9 @@ function connect() {
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/global', function (message) {
-            //showGreeting(JSON.parse(greeting.body).content);
-            showNotification("implement" + message);
+            showNotification("New Bitt:\n" + message.body);
         });
     });
 }
@@ -177,6 +179,5 @@ function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    setConnected(false);
     console.log("Disconnected");
 }
