@@ -147,3 +147,11 @@ function getCookie(name) {
     let parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
+
+
+/* Notifications */
+
+
+function showNotification(message) {
+    alertify.success(message);
+}
