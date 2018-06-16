@@ -1,11 +1,9 @@
 package vslab2.vslab2.controller;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import vslab2.vslab2.entity.FollowRequestEntity;
 import vslab2.vslab2.service.AuthenticationService;
 import vslab2.vslab2.service.ManageUsersService;
@@ -18,11 +16,13 @@ public class FollowController {
 
     private final ManageUsersService service;
     private final AuthenticationService authService;
+    private final Gson gson;
 
     @Autowired
-    public FollowController(AuthenticationService authService, ManageUsersService service) {
+    public FollowController(AuthenticationService authService, ManageUsersService service, Gson gson) {
         this.authService = authService;
         this.service = service;
+        this.gson = gson;
     }
 
     @RequestMapping(value = "/api/follow/{username}", method = RequestMethod.POST)
@@ -49,5 +49,11 @@ public class FollowController {
             return;
         }
         service.delSub(username, unfollowRequest.getFollow());
+    }
+
+    @RequestMapping(value = "api/subscriptions/{username}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSubs(@PathVariable String username) {
+        return gson.toJson(service.getSubs(username));
     }
 }

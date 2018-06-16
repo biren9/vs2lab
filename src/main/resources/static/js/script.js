@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     let pageCount = 1;
     let allTweetsLoaded = false;
     let requestDone = new Array();
@@ -15,10 +15,9 @@ $(document).ready(function() {
                     if (data.messages.length > 0) {
                         $.each(data.messages, function (key, value) {
                             var obj = JSON.parse(value);
-                            console.log(obj);
                             var currentUser = getCookie("client_username");
                             var followButton;
-                            if(currentUser === obj.author) {
+                            if (currentUser === obj.author) {
                                 followButton = "<button class='btn btn-info followButton' style='visibility: HIDDEN'>- " + obj.author + "</button>";
                             } else if (data.subs.includes(obj.author)) {
                                 followButton = "<button class='btn btn-info followButton'>- " + obj.author + "</button>";
@@ -34,7 +33,7 @@ $(document).ready(function() {
                                 "                        <h5 class=\"card-title\">" + obj.text + "</h5>\n" +
                                 "                    </div>\n" +
                                 "                    <div class=\"card-footer\">\n" +
-                                followButton+
+                                followButton +
                                 "                    </div>\n" +
                                 "                </div>");
                         });
@@ -87,7 +86,6 @@ $(document).ready(function() {
                 "data": JSON.stringify({follow: userToFollow}),
                 "method": "POST",
                 "success": function (data) {
-                    console.log(apiPath);
                     if (apiPath === "follow") {
                         button.removeClass("btn-success");
                         button.addClass("btn-info");
@@ -106,20 +104,20 @@ $(document).ready(function() {
             });
         });
     }
+
     followListener();
-    $(".userSearchInput").keypress(function(e) {
+    $(".userSearchInput").keypress(function (e) {
         let userString = $(this).val();
-        console.log(e.keyCode);
-        if(e.keyCode == 13) { // Enter press
-            window.location.href = "/userlist/search/"+userString  + "/0";
+        if (e.keyCode == 13) { // Enter press
+            window.location.href = "/userlist/search/" + userString + "/0";
         }
         else {
             let dataList = $("#searchresults");
-            if(userString.length > 0) {
-                $.get("/api/usersearch/"+userString, function(data) {
+            if (userString.length > 0) {
+                $.get("/api/usersearch/" + userString, function (data) {
                     var obj = JSON.parse(data);
                     dataList.empty();
-                    for(var i=0, len=obj.length; i<len; i++) {
+                    for (var i = 0, len = obj.length; i < len; i++) {
                         var opt = $("<option></option>").attr("value", obj[i]);
                         dataList.append(opt);
                     }
@@ -130,19 +128,19 @@ $(document).ready(function() {
     $(".toggleLogout").click(function (e) {
         e.preventDefault();
         disconnect();
-        $.get("/api/logout", function(data) {
-            if(data) {
+        $.get("/api/logout", function (data) {
+            if (data) {
                 window.location.href = "/";
             }
         });
     });
-    $(".userSearchButton").click(function(e) {
+    $(".userSearchButton").click(function (e) {
         e.preventDefault();
         let userLookup = $(".userSearchInput").val();
-        window.location.href = "/userlist/search/"+userLookup + "/0";
+        window.location.href = "/userlist/search/" + userLookup + "/0";
     });
 
-    $('.modal').on('shown.bs.modal', function() {
+    $('.modal').on('shown.bs.modal', function () {
         $(this).find('[autofocus]').focus();
     });
 
@@ -165,14 +163,31 @@ function showNotification(message) {
 var stompClient = null;
 
 function connect() {
+    let apiPath = "subscriptions"
+    let user = getCookie("client_username");
+    let targetUrl = "/api/" + apiPath + "/" + user;
+    let subs;
+    $.ajax(targetUrl, {
+        "method": "GET",
+        "success": function (data) {
+            subs = JSON.parse(data);
+            console.log(typeof subs);
+        },
+        "error": function (_, status, error) {
+            console.log(error);
+        }
+    });
+
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/global', function (message) {
-            showNotification("New Bitt:\n" + message.body);
-        });
+        subs.forEach((sub) => stompClient.subscribe('/topic/' + sub, handleChannelMessage));
     });
+}
+
+function handleChannelMessage(message) {
+    let msgObject = JSON.parse(message.body);
+    showNotification("New Bitt:\n" + msgObject.text);
 }
 
 function disconnect() {

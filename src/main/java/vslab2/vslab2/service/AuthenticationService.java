@@ -13,6 +13,7 @@ import vslab2.vslab2.dbLayer.BitterDB;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
@@ -93,8 +94,12 @@ public class AuthenticationService {
                 token = c.getValue();
             }
         }
-        String username = dao.getUserBySessionToken(token);
-        modelAndView.addObject("username", dao.getUserBySessionToken(token));
-        modelAndView.addObject("subs", dao.getSubs(username));
+        try {
+            String username = dao.getUserBySessionToken(token);
+            modelAndView.addObject("username", dao.getUserBySessionToken(token));
+            modelAndView.addObject("subs", dao.getSubs(username));
+        } catch (NullPointerException e) {
+            log.error("request is not generating thymleaf template but is intercepted: \n" + req.getRequestURI());
+        }
     }
 }

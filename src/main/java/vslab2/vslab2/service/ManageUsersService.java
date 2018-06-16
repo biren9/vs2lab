@@ -12,7 +12,6 @@ import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 public class ManageUsersService {
@@ -56,12 +55,11 @@ public class ManageUsersService {
     }
 
     public void addMessage(String username, String text) {
-        socketSenderService.sendGlobalMessage("fesfse");
+        socketSenderService.sendSocketMessage("fesfse");
         dao.addMessage(username, text);
     }
 
     public void addMessage(MessageEntity msg) {
-        socketSenderService.sendGlobalMessage("fesfse");
         msg.setTimestamp(new Date());
         dao.addMessage(msg);
     }

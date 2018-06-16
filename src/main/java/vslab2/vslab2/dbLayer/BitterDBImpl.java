@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import reactor.util.annotation.Nullable;
 import vslab2.vslab2.controller.UserListController;
 import vslab2.vslab2.entity.MessageEntity;
+import vslab2.vslab2.service.pubsub.RedisTimelinePublisher;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Repository
 public class BitterDBImpl implements BitterDB {
 
+    private final RedisTimelinePublisher redisTimelinePublisher;
     private final RedisTemplate<String, String> template;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -30,9 +32,10 @@ public class BitterDBImpl implements BitterDB {
     private ValueOperations<String, String> valOps;
 
     @Autowired
-    public BitterDBImpl(RedisTemplate<String, String> template, Gson gson) {
+    public BitterDBImpl(RedisTemplate<String, String> template, Gson gson, RedisTimelinePublisher redisTimelinePublisher) {
         this.template = template;
         this.gson = gson;
+        this.redisTimelinePublisher = redisTimelinePublisher;
     }
 
     @PostConstruct
@@ -152,12 +155,13 @@ public class BitterDBImpl implements BitterDB {
     @Override
     public void addMessage(MessageEntity msg) {
         String author = msg.getAuthor();
+        String jsonMsg = gson.toJson(msg);
         for (String follower : getFollowers(author)) {
-            listOps.leftPush(BITTER_TIMELINE_PREFIX + follower, gson.toJson(msg));
+            listOps.leftPush(BITTER_TIMELINE_PREFIX + follower, jsonMsg);
         }
-        listOps.leftPush(BITTER_GLOBAL_TIMELINE, gson.toJson(msg));
-        listOps.leftPush(BITTER_MESSAGES_PREFIX + author, gson.toJson(msg));
-
+        listOps.leftPush(BITTER_GLOBAL_TIMELINE, jsonMsg);
+        listOps.leftPush(BITTER_MESSAGES_PREFIX + author, jsonMsg);
+        redisTimelinePublisher.publish(jsonMsg);
     }
 
     @Override

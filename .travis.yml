@@ -1,8 +1,3 @@
 language: java
 services:
     - redis-server
-deploy:
-  provider: heroku
-  api_key:
-    secure: VtB2fYwfiDDLB8NInV1H83vwf1M6CPeZO3WNuxLDSVq/sae/mj7/fewaPxIGRu/ECYau2JHEg2S8SfIHctoBjQvYn1ddj+UgkpdkWNMseS/iY8MTQA3+N++mWhf29oKmpfeP0aAa2S+nah1rgHagVYcOkuO5Gbp3JsrkZwPo5wK2H8qc484Tf6qgrCP+VGdhou2mIwYe1voUZgjV3zcSlkOTXD8Pnku3BylUuvan1wuwvVXATTFiIo+hjFLM6tvh5cCG/jfvUfECXkc4w3T/CAlrLOsDwJL852Vz8wFs7h5oWa0bfybap0/aGTu/o+Bi+Ovi3gvuoUQc7Fk8Rtr1i0DbUyMCcvSij3AvAbWXgnHujSy6VCKW6P7wn4Rmd3iwPIahYNQ164rHjAcMkzhkcBjsh3Uq1AzW85O5Bkolkeq9l+i0qW5AF9QSQQintFhTzswayjOKzSKxHwVewwl8s0sD14ClL1j9s2nVWJL4uchzyHAwXiDpWKs+Vl+A+HnRes5hwzFv+8dq8K2K9YZVddJNlOgVxO28l+ScBP8A19duvFDMuUqJQuNHrhCuF1OxTpKqw1CwWg6sqHxIiySjjlyCZLQT4y9rz0onz7CharYB+7YFlXVDMKGvsKk9a/dw2/Tymn9IA1pwock2R2Fw9+WMa5dZKBzi6m2gDnxX2b4=
-  app: bitter-vs2
