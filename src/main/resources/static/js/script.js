@@ -157,7 +157,7 @@ function getCookie(name) {
 
 /* Notifications */
 function showNotification(message) {
-    alertify.success(message);
+    alertify.success(message.substr(0, 50));
 }
 
 var stompClient = null;
